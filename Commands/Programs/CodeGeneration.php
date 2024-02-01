@@ -39,6 +39,7 @@ class CodeGeneration extends AbstractCommand
     {
         // 生成するテンプレートを取得する
         $seederContent = $this->getSeederContent($seederName);
+        $seederName = $this->checkAndAppendSeeder($seederName);
 
         $path = sprintf("%s/../../Database/Seeds/%s", __DIR__, $seederName . '.php');
 
