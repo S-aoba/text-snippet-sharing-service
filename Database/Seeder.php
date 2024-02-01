@@ -6,5 +6,5 @@ interface Seeder
 {
   public function seed(): void;
 
-  public function createRowData(): array;
+  public function createRowData(string $snippet, string $language, string $path, string $expiration): array;
 }
