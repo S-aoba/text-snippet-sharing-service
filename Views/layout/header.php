@@ -10,8 +10,16 @@
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"> -->
   <script src="https://cdn.tailwindcss.com"></script>
   <title>My Computer Parts Store</title>
+
+  <style>
+    .monaco-editor {
+      padding-top: 10px;
+    }
+  </style>
+
 </head>
 
-<body class="flex flex-col min-h-screen">
-  <main class="container mx-auto mt-5 mb-5">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+<body class="flex flex-col h-screen max-h-screen min-w-full bg-gray-800">
+  <header class="text-3xl py-5 text-center text-white font-bold">
+    Text Snippet Sharing
+  </header>
