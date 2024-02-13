@@ -59,7 +59,7 @@
                   1日
                 </option>
                 <option value="Never">
-                  Never
+                  無制限
                 </option>
               </select>
             </ul>
