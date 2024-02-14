@@ -19,7 +19,7 @@
 
 </head>
 
-<body class="flex flex-col h-screen max-h-screen min-w-full bg-gray-800">
-  <header class="text-3xl py-5 text-center text-white font-bold">
+<body class="flex flex-col h-screen max-h-screen min-w-screen bg-gray-100">
+  <header class="text-4xl py-5 text-center font-bold">
     Text Snippet Sharing
   </header>

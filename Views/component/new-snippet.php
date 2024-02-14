@@ -1,87 +1,106 @@
-  <div class="w-full h-full flex justify-center flex-col items-center">
-    <div class="w-11/12 h-full flex items-center flex-col">
-      <div id="editor-container" class="monaco-container h-3/6 w-11/12 flex justify-center"></div>
-      <div class="py-10 flex flex-col items-center space-y-4 w-full">
-        <h2 class="text-3xl font-bold text-center text-white">
-          Optional Settings
-        </h2>
-        <div class="w-2/4 max-w-3xl h-fit bg-white rounded shadow p-5">
-          <div class="w-full h-full">
-            <ul class="text-lg flex justify-start flex-col">
-              <li class="mb-2">Language: </li>
-              <select class="w-full p-1 border border-gray-300" name="planeText">
-                <option value="plaintext">
-                  plaintext
-                </option>
-                <option value="python">
-                  python
-                </option>
-                <option value="javascript">
-                  javascript
-                </option>
-                <option value="php">
-                  php
-                </option>
-                <option value="java">
-                  java
-                </option>
-                <option value="c_cpp">
-                  c_cpp
-                </option>
-                <option value="c_sharp">
-                  c_sharp
-                </option>
-                <option value="go">
-                  go
-                </option>
-                <option value="ruby">
-                  ruby
-                </option>
-                <option value="rust">
-                  rust
-                </option>
-                <option value="swift">
-                  swift
-                </option>
-                <option value="kotlin">
-                  kotlin
-                </option>
-              </select>
-              <li class="my-2">Snippet Expiration: </li>
-              <select class="w-full p-1 border border-gray-300" name="expire">
-                <option value="10">
-                  10分
-                </option>
-                <option value="60">
-                  1時間
-                </option>
-                <option value="1440">
-                  1日
-                </option>
-                <option value="Never">
-                  無制限
-                </option>
-              </select>
-            </ul>
-            <div class="mt-5">
-              <button class="p-3 border border-blue-500 bg-blue-500 text-white rounded hover:bg-blue-600">Create Snippet</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs/loader.min.js"></script>
-  <script>
-    require.config({
-      paths: {
-        'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs'
+<div class="w-full h-fit flex flex-col items-center pt-20 pb-10">
+  <div id="editor-container" class="monaco-container" style="width: 800px; height: 600px; border: 1px solid grey;"></div>
+</div>
+<div class="flex justify-center items-center pt-10 space-x-5">
+  <select type="text" id="language" class="border border-gray-400 p-2 mr-2" placeholder="言語">
+    <?php echo generateLanguageOptions("PlainText"); ?>
+  </select>
+  <select type="text" id="expiration" class="border border-gray-400 p-2 mr-2" placeholder="期限">
+    <?php echo generateExpirationOptions("10分"); ?>
+  </select>
+
+  <button id="create-btn" type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">作成</button>
+</div>
+
+
+<!-- Monaco Editor のスクリプトローダーを読み込む -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs/loader.min.js'></script>
+<script>
+  const createBtn = document.getElementById("create-btn");
+
+  require.config({
+    paths: {
+      vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs",
+    },
+  });
+
+  require(["vs/editor/editor.main"], function() {
+    const editor = monaco.editor.create(
+      document.getElementById("editor-container"), {
+        value: "ここに共有したいテキストを入力してください。\n\n",
+        language: "plaintext",
+        automaticLayout: true,
+      }
+    );
+
+    const languages = monaco.languages.getLanguages();
+
+    createBtn.addEventListener("click", async function(event) {
+      event.preventDefault();
+
+      const snippet = editor.getValue();
+      const language = document.getElementById("language").value;
+      const expiration = document.getElementById("expiration").value;
+
+      const response = await fetch("/snippet/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          snippet: snippet,
+          language: language,
+          expiration: expiration,
+        }),
+      });
+
+      const result = await response.json();
+
+      // messageが存在する場合
+      if (result.message) {
+        alert(result.message);
+        // TODO 作成した画面に遷移する
+        console.log(result.data);
+        window.location.href = result.data['url'];
+      }
+
+      // エラーが発生した場合
+      if (result.error) {
+        alert(result.error);
       }
     });
-    require(['vs/editor/editor.main'], function() {
-      var editor = monaco.editor.create(document.getElementById('editor-container'), {
-        // value: '<?php echo htmlspecialchars("Hello World"); ?>',
-        language: 'plaintext' // エディターの言語を設定
-      });
-    });
-  </script>
+  });
+</script>
+<?php
+// プログラミング言語の選択肢を生成する関数
+function generateLanguageOptions($selectedLanguage = "")
+{
+  // プログラミング言語のリスト
+  $languages = array("PlainText", "Java", "Python", "JavaScript", "Ruby", "PHP");
+
+  // 選択された言語のオプションを生成
+  $options = "";
+  foreach ($languages as $language) {
+    $isSelected = ($selectedLanguage === $language) ? "selected" : "";
+    $options .= "<option value='$language' $isSelected>$language</option>";
+  }
+
+  return $options;
+}
+
+// 期限の選択肢を生成する関数
+function generateExpirationOptions($selectedExpiration = "")
+{
+  // 期限のリスト
+  $expirations = array("10分", "1時間", "5時間", "期限なし");
+
+  // 選択された期限のオプションを生成
+  $options = "";
+  foreach ($expirations as $expiration) {
+    $isSelected = ($selectedExpiration === $expiration) ? "selected" : "";
+    $options .= "<option value='$expiration' $isSelected>$expiration</option>";
+  }
+
+  return $options;
+}
+?>
