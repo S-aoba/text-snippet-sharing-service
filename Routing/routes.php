@@ -14,6 +14,11 @@ return [
     $url = $_GET['id'];
 
     $data = DatabaseHelper::getSnippet($url);
+
+    // 期限切れになっていないかを判定
+   if(ValidationHelper::checkExpiration($data['created_at'], $data['expiration']) === true) {
+    return new HTMLRenderer('component/expired');
+   }
     return new HTMLRenderer('component/snippet', ['data' => $data]);
   },
   // スニペットの新規作成(トップページ)
@@ -46,9 +51,7 @@ return [
     $success = DatabaseHelper::saveSnippet($snippet, $language, $url, $expiration,);
     if (!$success) {
       return new JSONRenderer(['error' => 'スニペットの保存中にエラーが発生しました'], 500);
-    }
-
-;
+    };
 
     $requestData['snippet'] = $snippet;
     $requestData['language'] = $language;

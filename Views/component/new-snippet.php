@@ -91,16 +91,23 @@ function generateLanguageOptions($selectedLanguage = "")
 // 期限の選択肢を生成する関数
 function generateExpirationOptions($selectedExpiration = "")
 {
-  // 期限のリスト
-  $expirations = array("10分", "1時間", "5時間", "期限なし");
+  // 期限と値の連想配列
+  $expiration_values = array(
+    "1分" => "1 minute",
+    "10分" => "10 minutes",
+    "1時間" => "1 hour",
+    "5時間" => "5 hours",
+    "期限なし" => "none"
+  );
 
   // 選択された期限のオプションを生成
   $options = "";
-  foreach ($expirations as $expiration) {
+  foreach ($expiration_values as $expiration => $value) {
     $isSelected = ($selectedExpiration === $expiration) ? "selected" : "";
-    $options .= "<option value='$expiration' $isSelected>$expiration</option>";
+    $options .= "<option value='$value' $isSelected>$expiration</option>";
   }
 
   return $options;
 }
+
 ?>

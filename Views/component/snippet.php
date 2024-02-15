@@ -2,7 +2,6 @@
   <div id="editor-container" class="monaco-container" style="width: 800px; height: 600px; border: 1px solid grey;"></div>
 </div>
 <div class="flex justify-center">
-
   <button id="new-snippet" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
     <a href="http://localhost:8000/newSnippet">New Snippet</a>
   </button>
