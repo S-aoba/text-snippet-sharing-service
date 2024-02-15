@@ -17,6 +17,8 @@ return [
 
     // 期限切れになっていないかを判定
    if(ValidationHelper::checkExpiration($data['created_at'], $data['expiration']) === true) {
+    // Databaseから削除
+    DatabaseHelper::deleteSnippet($url);
     return new HTMLRenderer('component/expired');
    }
     return new HTMLRenderer('component/snippet', ['data' => $data]);

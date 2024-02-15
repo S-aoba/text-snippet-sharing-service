@@ -29,4 +29,12 @@ class DatabaseHelper
     $row = $result->fetch_assoc();
     return $row;
   }
+
+  public static function deleteSnippet(string $hashedValue)
+  {
+    $db = new MySQLWrapper();
+    $stmt = $db->prepare("DELETE FROM snippets WHERE path = ?");
+    $stmt->bind_param('s', $hashedValue);
+    $stmt->execute();
+  }
 }
