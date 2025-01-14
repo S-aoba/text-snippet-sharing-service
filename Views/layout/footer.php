@@ -1,9 +1,9 @@
 </main> <!-- end of content -->
 
-<footer class="bg-light text-center text-lg-start">
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+<footer class="py-3">
+    <div class="text-center text-white font-bold">
         © 2025:
-        <a class="text-dark" href="/">MyComputerPartsStore.com</a>
+        <a class="" href="/">Text Snippet Sharing Service.com</a>
     </div>
 </footer>
 </body>

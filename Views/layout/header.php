@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja" class="h-screen">
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+        <!-- Tailwind css -->
+        <script src="https://cdn.tailwindcss.com"></script>
 
         <title>My Computer Parts Store</title>
     </head>
-    <body>
-        <main class="container mt-5 mb-5">
+    <body class="bg-gradient-to-t from-slate-500 to-slate-800 w-full h-full flex flex-col">
+        <main class="w-full h-full flex-1">
