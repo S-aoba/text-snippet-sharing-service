@@ -8,7 +8,7 @@
         <!-- Tailwind css -->
         <script src="https://cdn.tailwindcss.com"></script>
 
-        <title>My Computer Parts Store</title>
+        <title>Text Snippet Sharing Service</title>
     </head>
-    <body class="bg-gradient-to-t from-slate-500 to-slate-800 w-full h-full flex flex-col">
-        <main class="w-full h-full flex-1">
+    <body class=" w-full h-full flex flex-col">
+        <main class="w-full h-full flex-1 p-5">
