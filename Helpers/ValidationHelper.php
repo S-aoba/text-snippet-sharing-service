@@ -41,7 +41,7 @@ class ValidationHelper
     }
 
     public static function string($value): string {
-        $value = is_string($value);
+        $value = is_string($value) ? $value : false;
 
         if($value == false) throw new \InvalidArgumentException("The provided value is not a valid string.");
 
