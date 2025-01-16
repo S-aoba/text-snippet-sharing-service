@@ -10,5 +10,5 @@
 
         <title>Text Snippet Sharing Service</title>
     </head>
-    <body class=" w-full h-full flex flex-col">
-        <main class="w-full h-full flex-1 p-5">
+    <body class="w-full h-full flex flex-col items-center bg-[#252525]">
+        <main class="flex-1 h-full max-w-7xl w-full">
