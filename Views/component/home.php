@@ -14,7 +14,7 @@
     <!-- Settings -->
     <div class="w-2/5 h-fit py-2 flex flex-col space-y-2">
       <div class="w-full flex items-center justify-start space-x-10">
-        <label for="syntax-hignlighting" class="text-sm text-neutral-100 w-2/5">
+        <label for="syntax-highlighting" class="text-sm text-neutral-100 w-2/5">
           Syntax Highlighting:
         </label>
         <select name="syntax-highlighting" id="syntax-highlighting" class="flex-1 px-2 py-1 bg-neutral-700 text-white/70">
@@ -28,7 +28,7 @@
         </select>
       </div>
       <div class="w-full flex items-center justify-start space-x-10">
-        <label for="syntax-hignlighting" class="text-sm text-neutral-100 w-2/5">
+        <label for="paste-expiration" class="text-sm text-neutral-100 w-2/5">
           Paste Expiration:
         </label>
         <select name="paste-expiration" id="paste-expiration" class="flex-1 px-2 py-1 bg-neutral-700 text-white/70">
@@ -39,7 +39,7 @@
         </select>
       </div>
       <div class="w-full flex items-center justify-start space-x-10">
-        <label for="syntax-hignlighting" class="text-sm text-neutral-100 w-2/5">
+        <label for="paste-exposure" class="text-sm text-neutral-100 w-2/5">
           Paste Exposure:
         </label>
         <select name="paste-exposure" id="paste-exposure" class="flex-1 px-2 py-1 bg-neutral-700 text-white/70">
@@ -48,10 +48,10 @@
         </select>
       </div>
       <div class="w-full flex items-center justify-start space-x-10">
-        <label for="syntax-hignlighting" class="text-sm text-neutral-100 w-2/5">
+        <label for="password" class="text-sm text-neutral-100 w-2/5">
           Password:
         </label>
-        <input name="password" id="password" class="flex-1 w-full px-2 py-1 bg-neutral-700 text-white/70" />
+        <input type="password" name="password" id="password" class="flex-1 w-full px-2 py-1 bg-neutral-700 text-white/70" />
       </div>
       <div class="w-full flex justify-end items-center">
         <button type="submit" class="py-2 px-3 bg-neutral-700 text-white text-sm font-semibold rounded-sm hover:opacity-75">Create New Paste</button>
@@ -82,14 +82,27 @@ const submitSnippet = async() => {
   // http://localhost:8000/createへPost
   const formData = new FormData();
   formData.append('snippet' ,editor.getValue());
+
+  const syntaxHighlighting = document.getElementById('syntax-highlighting').value;
+  formData.append('syntaxHighlighting' ,syntaxHighlighting);
+
+  const pasteExpiration = document.getElementById('paste-expiration').value;
+  formData.append('pasteExpiration' ,pasteExpiration);
+
+  const pasteExposure = document.getElementById('paste-exposure').value;
+  formData.append('pasteExposure' ,pasteExposure);
+
+  const password = document.getElementById('password').value;
+  formData.append('password' ,password);
   
-  const response = await fetch('http://localhost:8000/create', {
-      method: "POST",
-      body: formData
-    });
+  
+  // const response = await fetch('http://localhost:8000/create', {
+  //     method: "POST",
+  //     body: formData
+  //   });
     
-    const data = await response.json();
-    console.log(data);
+  //   const data = await response.json();
+  //   console.log(data);
 }
 
 const snippetForm = document.getElementById('snippet-form');
