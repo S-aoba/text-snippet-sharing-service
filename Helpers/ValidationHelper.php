@@ -57,14 +57,21 @@ class ValidationHelper
             ValidationHelper::string($data['password']) ? $data['password'] : false;
         }
         
-        $expirationList = ['never', 'ten-minutes', 'one-hour', 'one-day'];
-        $pasteExpiration = in_array($data['pasteExpiration'], $expirationList) ? $data['pasteExpiration'] : false;
-        if($pasteExpiration === false) throw new \InvalidArgumentException('PasteExpiration is not correct.');
-
-        $highlightList = ['none', 'javascript', 'php', 'java', 'c', 'ruby', 'python'];
-        $syntaxHighlighting = in_array($data['syntaxHighlighting'], $highlightList) ? $data['syntaxHighlighting'] : false;
-        if($syntaxHighlighting === false) throw new \InvalidArgumentException('syntaxHighlighting is not correct');
+        ValidationHelper::expiration($data['pasteExpiration']);
+        ValidationHelper::syntaxHighlight($data['syntaxHighlighting']);
          
         return $data;
+    }
+
+    public static function expiration(string $expiration): void {
+        $expirationList = ['never', 'ten-minutes', 'one-hour', 'one-day'];
+        $pasteExpiration = in_array($expiration, $expirationList) ? $expiration : false;
+        if($pasteExpiration === false) throw new \InvalidArgumentException('PasteExpiration is not correct.');
+    }
+
+    public static function syntaxHighlight(string $syntaxHighlight): void {
+        $highlightList = ['none', 'javascript', 'php', 'java', 'c', 'ruby', 'python'];
+        $syntaxHighlighting = in_array($syntaxHighlight, $highlightList) ? $syntaxHighlight : false;
+        if($syntaxHighlighting === false) throw new \InvalidArgumentException('SyntaxHighlighting is not correct');
     }
 }
