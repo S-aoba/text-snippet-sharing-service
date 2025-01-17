@@ -60,7 +60,11 @@ class ValidationHelper
         $expirationList = ['never', 'ten-minutes', 'one-hour', 'one-day'];
         $pasteExpiration = in_array($data['pasteExpiration'], $expirationList) ? $data['pasteExpiration'] : false;
         if($pasteExpiration === false) throw new \InvalidArgumentException('PasteExpiration is not correct.');
-        
+
+        $highlightList = ['none', 'javascript', 'php', 'java', 'c', 'ruby', 'python'];
+        $syntaxHighlighting = in_array($data['syntaxHighlighting'], $highlightList) ? $data['syntaxHighlighting'] : false;
+        if($syntaxHighlighting === false) throw new \InvalidArgumentException('syntaxHighlighting is not correct');
+         
         return $data;
     }
 }
