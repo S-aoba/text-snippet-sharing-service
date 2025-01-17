@@ -79,12 +79,11 @@ editor = monaco.editor.create(document.getElementById('editor'), {
 
 
 const submitSnippet = async() => {
-  // http://localhost:8000/createへPost
   const formData = new FormData();
   formData.append('snippet' ,editor.getValue());
 
   const syntaxHighlighting = document.getElementById('syntax-highlighting').value;
-  formData.append('syntaxHighlighting' ,syntaxHighlighting);
+  formData.append('syntaxHighLighting' ,syntaxHighlighting);
 
   const pasteExpiration = document.getElementById('paste-expiration').value;
   formData.append('pasteExpiration' ,pasteExpiration);
@@ -94,15 +93,14 @@ const submitSnippet = async() => {
 
   const password = document.getElementById('password').value;
   formData.append('password' ,password);
-  
-  
-  // const response = await fetch('http://localhost:8000/create', {
-  //     method: "POST",
-  //     body: formData
-  //   });
+
+  const response = await fetch('http://localhost:8000/create', {
+      method: "POST",
+      body: formData
+    });
     
-  //   const data = await response.json();
-  //   console.log(data);
+    const data = await response.json();
+    window.location.href = data.url;
 }
 
 const snippetForm = document.getElementById('snippet-form');

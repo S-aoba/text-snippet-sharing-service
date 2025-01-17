@@ -1,6 +1,8 @@
 <?php
 
 use Helpers\DatabaseHelper;
+use Helpers\DateTimeHelper;
+use Helpers\HashCodeHelper;
 use Helpers\ValidationHelper;
 use Response\HTTPRenderer;
 use Response\Render\HTMLRenderer;
@@ -20,9 +22,30 @@ return [
 
     return new HTMLRenderer('component/snippet', ['snippet' => $snippet]);
   },
+  
+  // POST
+  'create' => function(): HTTPRenderer {
+    $data = [
+      'snippet' => $_POST['snippet'],
+      'syntaxHighLighting' => $_POST['syntaxHighLighting'],
+      'pasteExpiration' => $_POST['pasteExpiration'],
+      'pasteExposure' => $_POST['pasteExposure'],
+      'password' => $_POST['password']
+    ];
 
-  // // POST
-  // 'create' => function(): HTTPRenderer {
+    $validatedData = ValidationHelper::snippet($data);
 
-  // }
+    $validatedData['pasteExpiration'] = DateTimeHelper::generateExpiration($data['pasteExpiration']);
+
+    $randomHashCode = HashCodeHelper::generateRandomHashCode();
+    $hashedCode = HashCodeHelper::getHashedCode($randomHashCode);
+    
+    $validatedData['password'] = password_hash($validatedData['password'], PASSWORD_DEFAULT);
+
+    DatabaseHelper::saveSnippet($validatedData, $hashedCode);
+    
+    $url = "http://localhost:8000/snippet?hash=$randomHashCode";
+
+    return new JSONRenderer(['url' => $url]);
+  }
 ];
