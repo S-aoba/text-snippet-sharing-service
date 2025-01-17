@@ -28,12 +28,12 @@ class DatabaseHelper
         $db = new MySQLWrapper();
         $snippet = $data['snippet'];
         $password = $data['password'];
-        $syntaxHighLighting = $data['syntaxHighLighting'];
+        $syntaxHighlighting = $data['syntaxHighlighting'];
         $pasteExpiration = $data['pasteExpiration'];
         // TODO: $pasteExposureを入れるカラムを作成し、SQLコードの修正する
          
         $stmt = $db->prepare("INSERT INTO snippets (snippet, password, language, expired_at ,hashed_str) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param('sssss', $snippet, $password, $syntaxHighLighting, $pasteExpiration, $hashedCode);
+        $stmt->bind_param('sssss', $snippet, $password, $syntaxHighlighting, $pasteExpiration, $hashedCode);
         $result = $stmt->execute();
 
         if($result === false) throw new Exception('Could not execute the query.');
