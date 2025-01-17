@@ -39,15 +39,6 @@
         </select>
       </div>
       <div class="w-full flex items-center justify-start space-x-10">
-        <label for="paste-exposure" class="text-sm text-neutral-100 w-2/5">
-          Paste Exposure:
-        </label>
-        <select name="paste-exposure" id="paste-exposure" class="flex-1 px-2 py-1 bg-neutral-700 text-white/70">
-          <option value="public" selected>Public</option>
-          <option value="private">Private</option>
-        </select>
-      </div>
-      <div class="w-full flex items-center justify-start space-x-10">
         <label for="password" class="text-sm text-neutral-100 w-2/5">
           Password:
         </label>
@@ -87,9 +78,6 @@ const submitSnippet = async() => {
 
   const pasteExpiration = document.getElementById('paste-expiration').value;
   formData.append('pasteExpiration' ,pasteExpiration);
-
-  const pasteExposure = document.getElementById('paste-exposure').value;
-  formData.append('pasteExposure' ,pasteExposure);
 
   const password = document.getElementById('password').value;
   formData.append('password' ,password);

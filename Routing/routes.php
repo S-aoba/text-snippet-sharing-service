@@ -29,7 +29,6 @@ return [
       'snippet' => $_POST['snippet'],
       'syntaxHighlighting' => $_POST['syntaxHighlighting'],
       'pasteExpiration' => $_POST['pasteExpiration'],
-      'pasteExposure' => $_POST['pasteExposure'],
       'password' => $_POST['password']
     ];
 
