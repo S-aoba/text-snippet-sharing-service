@@ -47,4 +47,24 @@ class ValidationHelper
 
         return $value;
     }
+
+    public static function snippet(array $data): array {
+        if(!isset($data['snippet'])) {
+            ValidationHelper::string($data['snippet']) ? $data['snippet'] : false;
+        }
+
+        if(!isset($data['password'])) {
+            ValidationHelper::string($data['password']) ? $data['password'] : false;
+        }
+        
+        $expirationList = ['never', 'ten-minutes', 'one-hour', 'one-day'];
+        $pasteExpiration = in_array($data['pasteExpiration'], $expirationList) ? $data['pasteExpiration'] : false;
+        if($pasteExpiration === false) throw new \InvalidArgumentException('PasteExpiration is not correct.');
+        
+        // TODO: validation of syntaxHighLighting
+        // TODO validation of pasteExposurr
+
+
+        return $data;
+    }
 }
