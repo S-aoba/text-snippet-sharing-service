@@ -18,9 +18,14 @@ return [
     $hash = $_GET['hash'];
 
     $hash = ValidationHelper::string($hash);
-    $snippet = DatabaseHelper::getSnippet($hash);
+    $data = DatabaseHelper::getSnippet($hash);
 
-    return new HTMLRenderer('component/snippet', ['snippet' => $snippet]);
+    // スニペットの期限を確認する
+    $isNotExpiration = DateTimeHelper::checkExpiration($data['expired_at']);
+
+    if($isNotExpiration === false) return new HTMLRenderer('expired-page');
+    
+    return new HTMLRenderer('component/snippet', ['data' => $data, 'expired_at' => $isNotExpiration]);
   },
   
   // POST

@@ -20,4 +20,11 @@ class DateTimeHelper {
         return null;
     }
   }
+
+  public static function checkExpiration(string $expiration): bool {
+    $now = new DateTime('Asia/Tokyo');
+    $expiredAt = new DateTime($expiration);
+
+    return $now > $expiredAt ? true : false;
+  }
 }
