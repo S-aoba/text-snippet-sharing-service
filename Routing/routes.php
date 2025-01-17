@@ -27,7 +27,7 @@ return [
   'create' => function(): HTTPRenderer {
     $data = [
       'snippet' => $_POST['snippet'],
-      'syntaxHighLighting' => $_POST['syntaxHighLighting'],
+      'syntaxHighlighting' => $_POST['syntaxHighlighting'],
       'pasteExpiration' => $_POST['pasteExpiration'],
       'pasteExposure' => $_POST['pasteExposure'],
       'password' => $_POST['password']

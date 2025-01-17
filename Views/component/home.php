@@ -83,7 +83,7 @@ const submitSnippet = async() => {
   formData.append('snippet' ,editor.getValue());
 
   const syntaxHighlighting = document.getElementById('syntax-highlighting').value;
-  formData.append('syntaxHighLighting' ,syntaxHighlighting);
+  formData.append('syntaxHighlighting' ,syntaxHighlighting);
 
   const pasteExpiration = document.getElementById('paste-expiration').value;
   formData.append('pasteExpiration' ,pasteExpiration);

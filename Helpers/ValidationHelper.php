@@ -61,7 +61,7 @@ class ValidationHelper
         $pasteExpiration = in_array($data['pasteExpiration'], $expirationList) ? $data['pasteExpiration'] : false;
         if($pasteExpiration === false) throw new \InvalidArgumentException('PasteExpiration is not correct.');
         
-        // TODO: validation of syntaxHighLighting
+        // TODO: validation of syntaxHighlighting
         // TODO validation of pasteExposurr
 
 
