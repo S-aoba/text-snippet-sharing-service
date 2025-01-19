@@ -48,55 +48,64 @@
         <button type="submit" class="py-2 px-3 bg-neutral-700 text-white text-sm font-semibold rounded-sm hover:opacity-75">Create New Paste</button>
       </div>
     </div>
+    <div id="url">
+    </div>
     
   </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.40.0/min/vs/loader.js"></script>
-<!-- TODO: Prepare Js code -->
 <script>
+  // monaco editorの読み込み
+  require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.40.0/min/vs' } });
+
   let editor;
+  require(['vs/editor/editor.main'], function() {
+  // エディターを初期化
+  editor = monaco.editor.create(document.getElementById('editor'), {
+      value: '',
+      language: 'markdown',
+      theme: 'vs-light',
+      automaticLayout: true
+    })
+  });
 
-require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.40.0/min/vs' } });
-require(['vs/editor/editor.main'], function() {
-// エディターを初期化
-editor = monaco.editor.create(document.getElementById('editor'), {
-    value: '',
-    language: 'markdown',
-    theme: 'vs-light',
-    automaticLayout: true
-  })
-});
-
-
-const submitSnippet = async() => {
-  const formData = new FormData();
-  formData.append('snippet' ,editor.getValue());
-
-  const syntaxHighlighting = document.getElementById('syntax-highlighting').value;
-  formData.append('syntaxHighlighting' ,syntaxHighlighting);
-
-  const pasteExpiration = document.getElementById('paste-expiration').value;
-  formData.append('pasteExpiration' ,pasteExpiration);
-
-  const password = document.getElementById('password').value;
-  formData.append('password' ,password);
-
-  const response = await fetch('http://localhost:8000/create', {
-      method: "POST",
-      body: formData
-    });
+  const snippetForm = document.getElementById('snippet-form');
+  snippetForm.addEventListener('submit', async(e) => {
+    e.preventDefault();
     
-    const data = await response.json();
-    window.location.href = data.url;
-}
+    const formData = new FormData();
+    formData.append('snippet' ,editor.getValue());
 
-const snippetForm = document.getElementById('snippet-form');
-snippetForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  submitSnippet();
-})
-  
+    const syntaxHighlighting = document.getElementById('syntax-highlighting').value;
+    formData.append('syntaxHighlighting' ,syntaxHighlighting);
 
+    const pasteExpiration = document.getElementById('paste-expiration').value;
+    formData.append('pasteExpiration' ,pasteExpiration);
 
+    const password = document.getElementById('password').value;
+    formData.append('password' ,password);
+    
+    // Backendへsnippet dataをPost
+    const response = await fetch('http://localhost:8000/create', {
+        method: "POST",
+        body: formData
+      });
+      
+      const data = await response.json();
+      const URL = data.url;
+
+      const url = document.getElementById('url');
+      url.classList = `flex flex-col space-y-2 justify-center bg-neutral-900 p-3 text-start`;
+      const description = document.createElement('span');
+      description.textContent = `URL`;
+      description.className = `text-white text-sm font-medium`;
+      const snippetLink = document.createElement('a');
+      snippetLink.textContent = URL;
+      snippetLink.className = `w-fit text-blue-500 hover:text-blue-700 underline hover:cursor-pointer`;
+      snippetLink.href = `${URL}`;
+      snippetLink.target = `_blank`;
+      url.appendChild(description);
+      url.appendChild(snippetLink);
+  })
 </script>
