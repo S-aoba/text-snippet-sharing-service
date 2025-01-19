@@ -36,20 +36,29 @@ return [
       'pasteExpiration' => $_POST['pasteExpiration'],
       'password' => $_POST['password']
     ];
-
+    // データの内容を確認
+    // error_log(print_r($data, true)); // サーバーログに出力
+    // データのバリデーション
     $validatedData = ValidationHelper::snippet($data);
-
+    // 期限切れの日付を作成
     $validatedData['pasteExpiration'] = DateTimeHelper::generateExpiration($data['pasteExpiration']);
-
-    $randomHashCode = HashCodeHelper::generateRandomHashCode();
-    $hashedCode = HashCodeHelper::getHashedCode($randomHashCode);
-    
-    $validatedData['password'] = password_hash($validatedData['password'], PASSWORD_DEFAULT);
-
+    // ランダムな文字列を作成
+    $randomCode = HashCodeHelper::generateRandomHashCode();
+    // 文字列をハッシュ化
+    $hashedCode = HashCodeHelper::getHashedCode($randomCode);
+    // パスワードをハッシュ化(設定していなけばnullに設定する)
+    if($validatedData['password'] !== '') {
+      $validatedData['password'] = password_hash($validatedData['password'], PASSWORD_DEFAULT);
+    }
+    else {
+      $validatedData['password'] = null;
+    }
+    // スニペットを保存
     DatabaseHelper::saveSnippet($validatedData, $hashedCode);
     
-    $url = "http://localhost:8000/snippet?hash=$randomHashCode";
+    // TODO: Error Handling
+    $URL = "http://localhost:8000/snippet?hash={$randomCode}";
 
-    return new JSONRenderer(['url' => $url]);
+    return new JSONRenderer(['url' => $URL]);
   }
 ];
