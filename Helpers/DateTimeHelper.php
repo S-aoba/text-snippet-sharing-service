@@ -21,7 +21,9 @@ class DateTimeHelper {
     }
   }
 
-  public static function checkExpiration(string $expiration): bool {
+  public static function checkExpiration(?string $expiration): bool {
+    if(is_null($expiration)) return true;
+    
     $now = new DateTime('Asia/Tokyo');
     $expiredAt = new DateTime($expiration);
 
